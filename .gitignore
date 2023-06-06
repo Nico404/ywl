@@ -2,3 +2,5 @@
 .DS_Store
 config/config.yaml
 data/
+__pycache__/
+*.py[cod]
