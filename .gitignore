@@ -1,4 +1,4 @@
 .python-version
-data/raw
-data/processed
+.DS_Store
 config/config.yaml
+data/
