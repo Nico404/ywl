@@ -1,7 +1,7 @@
 import os
 from config.config import Config
 
-def count_words(id):
+def count_words(id: str) -> int:
     ''' Count words in the book '''
     config = Config()
     file_path = os.path.join(config.PROJECT_ROOT, config.DATA_RAW_PATH_GLOBAL, 'books', f'{id}.txt')
@@ -14,7 +14,7 @@ def count_words(id):
         words = text.split()
         return len(words)
 
-def count_chars(id):
+def count_chars(id: str) -> int:
     ''' Count chars in the book '''
     # first check if file exists
     config = Config()
