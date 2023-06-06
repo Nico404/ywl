@@ -1,0 +1,4 @@
+.python-version
+data/raw
+data/processed
+config/config.yaml
