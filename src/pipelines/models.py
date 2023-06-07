@@ -1,4 +1,4 @@
-from gensim.models import Word2Vec, KeyedVectors, Glove
+from gensim.models import Word2Vec, KeyedVectors
 import gensim.downloader as api
 import pandas as pd
 
@@ -14,20 +14,16 @@ class Models:
         df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
         return df
 
-    def word2vec_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
-        path = api.load("word2vec-google-news-300", return_path=True) # replace with local
-        wordtovec = KeyedVectors.load_word2vec_format(path, binary=True)
-        df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
-        return df
+    # word2vec-google-news-300
+    # def word2vec_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
+    #     return df
 
+    # def glove_model_(self, df : pd.DataFrame) -> pd.DataFrame:
+    #     # TBD our version
+    #     return df
 
-    def glove_model_(self, df : pd.DataFrame) -> pd.DataFrame:
-        # TBD our version
-        return df
-
-
-    def glove_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
-        path = api.load("glove-twitter-25", from_hf=True, return_path=True) # replace with local
-        wordtovec = KeyedVectors.load_word2vec_format(path, binary=True)
-        df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
-        return df
+    # def glove_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
+    #     path = api.load("glove-twitter-25", return_path=True) # replace with local
+    #     wordtovec = KeyedVectors.load_word2vec_format(path, binary=True)
+    #     df['Book'] = df['Book'].apply(lambda x: [wordtovec[word] for word in x if word in wordtovec])
+    #     return df
