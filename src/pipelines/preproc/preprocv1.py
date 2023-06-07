@@ -1,25 +1,29 @@
-# from sklearn.compose import ColumnTransformer
-# from sklearn.pipeline import FeatureUnion, FunctionTransformer, Pipeline
-# from preprocessor import Preprocessor
-# from keras.utils import to_categorical
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import FeatureUnion, FunctionTransformer, Pipeline
+import tensorflow as tf
+import pandas as pd
+from config.config import Config
+import os
+from src.pipelines.preprocessor import Preprocessor
 
-# # Create the preprocessor pipeline
-# text_pipeline = FeatureUnion([
-#     ('body', FunctionTransformer(Preprocessor().body_preprocessor)),
-#     ('clean_body', FunctionTransformer(Preprocessor().clean_body_preprocessor)),
-#     ('chunk_text', FunctionTransformer(Preprocessor().chunk_text_preprocessor)),
-#     ('tokenizer', FunctionTransformer(Preprocessor().tokenizer_preprocessor)),
-#     ('embedder', FunctionTransformer(Preprocessor().word2vec_preprocessor))
-# ])
+config = Config()
+preprocessor = Preprocessor()
 
-# author_pipeline = Pipeline([
-#     ('encoder', FunctionTransformer(lambda X: to_categorical(X, num_classes=10)))
-# ])
+def build_preprocessor_pipeline():
+    # Create the preprocessor pipeline
+    text_pipeline = Pipeline([
+        ('body', Preprocessor().body_preprocessor),
+        ('clean_body', Preprocessor().clean_body_preprocessor),
+        ('chunk_text', Preprocessor().chunk_text_preprocessor)
+    ])
 
-# preprocessor = ColumnTransformer([
-#     ('text_transformer', text_pipeline, ['X']),
-#     ('author_transformer', author_pipeline, ['y'])
-# ])
+    author_pipeline = Pipeline([
+        ('encoder', Preprocessor().encode_label_preprocessor),
+    ])
 
-# # Apply the preprocessing steps on the dataframe
-# preprocessed_data = preprocessor.fit_transform(df)
+    preprocessor = ColumnTransformer([
+        ('text_transformer', text_pipeline, ['Book']),
+        ('author_transformer', author_pipeline, ['Author'])
+    ])
+
+    return preprocessor

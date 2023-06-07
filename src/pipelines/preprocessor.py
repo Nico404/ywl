@@ -1,63 +1,69 @@
 import pandas as pd
-from sklearn.pipeline import Pipeline, FeatureUnion
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import FunctionTransformer
-import tensorflow as tf
-from nltk.tokenize import word_tokenize
-from gensim.models import Word2Vec
 from keras.utils import to_categorical
+from sklearn.preprocessing import LabelEncoder
+from src.utils.cleaning import body, body_cleaning
+from src.utils.chunkify import chunk_text
+from config.config import Config
 
-# Read the dataframe
-df = pd.read_csv('df_final.csv')
 
-# Define preprocessing methods
+config = Config()
 
 class Preprocessor:
 ## Preprocessing methods ##
-    def body_preprocessor(self, X):
-        # Apply preprocessing operations on text
-        # Example: cleaning, normalization, etc.
-        return X
+    def body_preprocessor(self, df):
+        df['Book'] = df['Book'].apply(body)
+        return df
 
-    def clean_body_preprocessor(self, X):
-        # Apply cleaning operations on text
-        return X
+    def clean_body_preprocessor(self, df):
+        df['Book'] = df['Book'].apply(body_cleaning)
+        return df
 
-    def encode_categorical(self, X):
-        # Apply encoding operations on target
-        return X
+    # def chunk_text_preprocessor(self, df):
+    #     df['Book'] = df['Book'].apply(chunk_text)
+    #     new_df = pd.DataFrame(columns=['Author', 'Chunk'])
+    #     for row in df:
+    #         for chunk in row['Book']: # row['Book'] is a list of chunks
+    #             new_df.append({'Author': row['Author'], 'Chunk': chunk})
+    #     return new_df
 
-    def encode_label(self, X):
-    # Apply encoding operations on target
-        return X
+    def chunk_text_preprocessor(self, df):
+        new_rows = []
 
-    def chunk_text_preprocessor(self, X):
-    # Apply chunking operations on text
-        return X
+        for index, row in df.iterrows():
+            chunks = chunk_text(row['Book'])  # Get the chunks for the current row
 
-    def padding_preprocessor(self, X):
-    # Apply padding operations on text
-        return X
+            for chunk in chunks:
+                new_row = {
+                    'Author': row['Author'],
+                    'Book': chunk
+                }
+                new_rows.append(new_row)
 
-## Tokenization methods ##
-    def nltk_preprocessor(self, X):
-    # Apply tokenization operations on text
-        return X
-
-    def text_to_sequence_preprocessor(self, X):
-    # Apply tokenization operations on text
-        return X
+        new_df = pd.DataFrame(new_rows)
+        return new_df
 
 
-    def ngrams_preprocessor(self, X):
-    # Apply tokenization operations on text
-        return X
+    def encode_label_preprocessor(self, df):
+        le = LabelEncoder()
+        le.fit(df['Author'])
+        df['Author'] = le.transform(df['Author'])
+        return df
 
-## Embedding methods ##
-    def word2vec_preprocessor(self, X):
-        # Apply Word2Vec operations on tokenized text
-        return X
+    def encode_categorical_preprocessor(self, df):
+        # first label encode the target variable so we have integers to categorize
+        le = LabelEncoder()
+        le.fit(df['Author'])
+        df['Author'] = le.transform(df['Author'])
+        df['Author'] = to_categorical(df['Author'], num_classes=10)
+        return df
 
-    def glove_preprocessor(self, X):
-        # Apply GloVe operations on tokenized text
-        return X
+    # def padding_preprocessor(self, df): # normalement pas besoin, et du coup pas de masking
+    #     return df
+
+# ## Embedding methods ##
+#     def word2vec_preprocessor(self, df):
+#         df['Book'] = df['Book'].apply(lambda x: Word2Vec(x, vector_size=10))
+#         return df
+
+#         # def glove_preprocessor(self, X):
+#         #     return X
