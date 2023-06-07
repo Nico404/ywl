@@ -22,8 +22,6 @@ class Models:
     #     # TBD our version
     #     return df
 
+    # glove-twitter-25
     # def glove_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
-    #     path = api.load("glove-twitter-25", return_path=True) # replace with local
-    #     wordtovec = KeyedVectors.load_word2vec_format(path, binary=True)
-    #     df['Book'] = df['Book'].apply(lambda x: [wordtovec[word] for word in x if word in wordtovec])
     #     return df
