@@ -4,6 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 from src.utils.cleaning import body, body_cleaning
 from src.utils.chunkify import chunk_text
 from config.config import Config
+import numpy as np
 
 
 config = Config()
@@ -18,27 +19,31 @@ class Preprocessor:
         df['Book'] = df['Book'].apply(body_cleaning)
         return df
 
-    # def chunk_text_preprocessor(self, df):
-    #     df['Book'] = df['Book'].apply(chunk_text)
-    #     new_df = pd.DataFrame(columns=['Author', 'Chunk'])
-    #     for row in df:
-    #         for chunk in row['Book']: # row['Book'] is a list of chunks
-    #             new_df.append({'Author': row['Author'], 'Chunk': chunk})
-    #     return new_df
-
     def chunk_text_preprocessor(self, df):
-        new_rows = []
-
+        new_rows = list()
         for index, row in df.iterrows():
             chunks = chunk_text(row['Book'])  # Get the chunks for the current row
-
             for chunk in chunks:
                 new_row = {
                     'Author': row['Author'],
                     'Book': chunk
                 }
                 new_rows.append(new_row)
+        new_df = pd.DataFrame(new_rows)
+        return new_df
 
+    def chunk_text_preprocessor_nd(self, array: np.ndarray):
+        # for pipeline use only
+        df = pd.DataFrame(array, columns=['Book', 'Author'])
+        new_rows = list()
+        for index, row in df.iterrows():
+            chunks = chunk_text(row['Book'])  # Get the chunks for the current row
+            for chunk in chunks:
+                new_row = {
+                    'Author': row['Author'],
+                    'Book': chunk
+                }
+                new_rows.append(new_row)
         new_df = pd.DataFrame(new_rows)
         return new_df
 

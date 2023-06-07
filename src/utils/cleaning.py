@@ -7,10 +7,10 @@ def body(text):
     """
     result = re.findall(r'\*\*\* START OF .+ \*\*\*(.*?)\*\*\* END OF .+ \*\*\*', text, flags=re.DOTALL)
     if result:
-        body = result[0].strip()
+        body_ = result[0].strip()
     else:
-        body="No match found."
-    return body
+        body_ = text
+    return body_
 
 def body_cleaning(body, to_strip=True, to_lower=True, del_numbers=True, del_punctuation=False):
     """

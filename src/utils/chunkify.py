@@ -17,7 +17,6 @@ def chunk_text(text: str, chunk_size=256) -> list[str]:
             current_chunk = list()  # Reset current
 
     print(str(len(chunks)) + ' chunks created')
-    # depile the list of chunks into a
 
     return chunks
 
