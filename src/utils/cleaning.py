@@ -31,3 +31,11 @@ def body_cleaning(body, to_strip=True, to_lower=True, del_numbers=True, del_punc
             body = body.replace(punctuation, '')
 
     return body
+
+
+def strip_html(text):
+    """
+    Removes html tags from a string
+    """
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
