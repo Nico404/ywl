@@ -60,7 +60,6 @@ class Preprocessor:
         # For each author in df_chunks, we keep only 1k chunks to have a balanced dataset as seen in jupyter notebook
         new_df = new_df.groupby('Author').apply(lambda x: x.sample(n=1000, random_state=42)).reset_index(drop=True)
 
-
         return new_df
 
     def padding_preprocessor(self, df): # normalement pas besoin, et du coup pas de masking
