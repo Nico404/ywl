@@ -9,9 +9,8 @@ from src.pipelines.models import Models
 
 config = Config()
 
-#  fit_transform() took 3 minutes and 5 seconds
 def build_preprocessor_pipeline_02():
-    # Preprocessor custom class with our preprocessing methods
+    # Preprocessor and models custom class with our preprocessing, embeddings and models
     preprocessor = Preprocessor()
     models = Models()
 
@@ -34,12 +33,12 @@ def build_preprocessor_pipeline_02():
 
     padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
 
-    embedder = FunctionTransformer(models.word2vec_model_100_12_1)
+    # embedder = FunctionTransformer(models.word2vec_model_100_12_1)
 
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
-                                 padding_preprocessor,
-                                 embedder)
+                                 padding_preprocessor
+                                 )
 
 
     return pipeline

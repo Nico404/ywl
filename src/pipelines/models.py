@@ -42,30 +42,28 @@ class Models:
             """
             Initialize the Neural Network
             """
-
             model = Sequential()
+
             model.add(layers.Masking())
+
             model.add(layers.LSTM(100, activation='relu'))
-        # ou bien  model.add(layers.Dense(100, activation='relu'))
+            # ou bien  model.add(layers.Dense(100, activation='relu'))
+
             model.add(layers.Dense(10, activation="softmax"))
-
-            print("✅ Model initialized")
-
+            print("Model initialized")
             return model
 
         def compile_model_1(model: Model, learning_rate=0.0001) -> Model:
             """
             Compile the Neural Network
             """
-
             optimizer = optimizers.Adam(learning_rate=learning_rate)
 
             model.compile(loss='categorical_crossentropy',
                         optimizer=optimizer,
                         metrics=['accuracy', "f1score"])
-
-            print("✅ Model compiled")
-
+            
+            print("Model compiled")
             return model
 
 
@@ -82,7 +80,6 @@ class Models:
             """
             Fit the model and return a tuple (fitted_model, history)
             """
-
             print("\nTraining model...")
 
             es = EarlyStopping(
@@ -104,9 +101,7 @@ class Models:
             )
 
             print(history.history.keys())
-
-            print(f"✅ Model trained on {len(X)} rows with min val MAE: {round(np.min(history.history['val_mae']), 2)}")
-
+            print(f"Model trained on {len(X)} rows with min val MAE: {round(np.min(history.history['val_mae']), 2)}")
             return model, history
 
         def evaluate_model_1(
@@ -118,7 +113,6 @@ class Models:
             """
             Evaluate trained model on the dataset
             """
-
             print(f"\nEvaluating model on {len(X)} rows...")
 
             metrics = model.evaluate(
@@ -134,7 +128,7 @@ class Models:
             accuracy = metrics['accuracy']
             f1score = metrics['f1score']
 
-            print(f"✅ Model evaluated, Loss:{round(loss, 2)}  Accuracy: {round(accuracy, 2)}, F1Score: {round(f1score, 2)}")
+            print(f"Model evaluated, Loss:{round(loss, 2)}  Accuracy: {round(accuracy, 2)}, F1Score: {round(f1score, 2)}")
 
             return metrics
 

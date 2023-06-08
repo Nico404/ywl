@@ -5,12 +5,14 @@ import pandas as pd
 from config.config import Config
 import os
 from src.pipelines.preprocessor import Preprocessor
+from src.pipelines.models import Models
 
 config = Config()
 
-def build_preprocessor_pipeline_01():
-    # Preprocessor custom class with our preprocessing methods
+def build_preprocessor_pipeline_05():
+    # Preprocessor and models custom class with our preprocessing, embeddings and models
     preprocessor = Preprocessor()
+    models = Models()
 
     text_pipeline = Pipeline([
         ('body', FunctionTransformer(preprocessor.body_preprocessor)),
@@ -29,10 +31,15 @@ def build_preprocessor_pipeline_01():
      # nd version
     chunk_text_preprocessor_nd = FunctionTransformer(preprocessor.chunk_text_preprocessor_nd)
 
-    padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
+    # padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
 
-    preprocessor = make_pipeline(text_author_parallel,
+    embedder = FunctionTransformer(models.word2vec_model_100_12_1)
+
+    model = FunctionTransformer(models.lstm_model_100_12_1)
+
+    pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
-                                 padding_preprocessor)
+                                 embedder,
+                                 model)
 
-    return preprocessor
+    return pipeline
