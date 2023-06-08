@@ -31,15 +31,15 @@ def build_preprocessor_pipeline_05():
      # nd version
     chunk_text_preprocessor_nd = FunctionTransformer(preprocessor.chunk_text_preprocessor_nd)
 
-    # padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
+    padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
 
-    embedder = FunctionTransformer(models.word2vec_model_100_12_1)
+    word2vec_model_100_12_1 = FunctionTransformer(models.word2vec_model_60_12_2)
 
-    model = FunctionTransformer(models.ict_model_RNN_1)
+    ict_model_RNN_1 = FunctionTransformer(models.ict_model_RNN_1)
 
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
-                                 embedder,
-                                 model)
+                                 word2vec_model_100_12_1,
+                                 ict_model_RNN_1)
 
     return pipeline

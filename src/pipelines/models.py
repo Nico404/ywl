@@ -46,7 +46,7 @@ class Models:
 
             model.add(layers.Masking())
 
-            model.add(layers.LSTM(60, activation='relu', input_shape=(X_train.shape[1], X_train.shape[2])))
+            model.add(layers.LSTM(60, activation='relu'))
             # ou bien  model.add(layers.Dense(100, activation='relu'))
 
             model.add(layers.Dense(10, activation="softmax"))
@@ -73,8 +73,7 @@ class Models:
                 y: np.ndarray,
                 batch_size=32,
                 patience=2,
-                validation_data=None, # overrides validation_split
-                validation_split=0.3,
+                # validation_split=0.3,
                 epochs=5
             ) -> Tuple[Model, dict]:
             """
@@ -92,8 +91,7 @@ class Models:
             history = model.fit(
                 X,
                 y,
-                validation_data=validation_data,
-                validation_split=validation_split,
+                # validation_split=validation_split,
                 epochs=epochs,
                 batch_size=batch_size,
                 callbacks=[es],
@@ -134,6 +132,6 @@ class Models:
 
         RNN_1_init = init_model_1()
         RNN_1_comp = compile_model_1(model=RNN_1_init,learning_rate=0.0001)
-        RNN_1_train = train_model_1(model=RNN_1_comp, X=X_train, y=y_train)
+        # RNN_1_train = train_model_1(model=RNN_1_comp, X=X_train, y=y_train)
 
-        return RNN_1_train
+        return RNN_1_comp
