@@ -35,7 +35,7 @@ def build_preprocessor_pipeline_05():
 
     embedder = FunctionTransformer(models.word2vec_model_100_12_1)
 
-    model = FunctionTransformer(models.lstm_model_100_12_1)
+    model = FunctionTransformer(models.ict_model_RNN_1)
 
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,

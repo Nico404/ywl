@@ -34,11 +34,11 @@ def build_preprocessor_pipeline_03():
 
     padding_preprocessor = FunctionTransformer(preprocessor.padding_preprocessor)
 
-    embedder = FunctionTransformer(models.word2vec_model_100_12_1)
+    word2vec_model_60_12_2 = FunctionTransformer(models.word2vec_model_60_12_2)
 
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
                                  padding_preprocessor,
-                                 embedder)
+                                 word2vec_model_60_12_2)
 
     return pipeline
