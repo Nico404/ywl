@@ -9,8 +9,7 @@ from src.pipelines.models import Models
 
 config = Config()
 
-#     return pipeline
-def build_preprocessor_pipeline_04():
+def build_preprocessor_pipeline_05():
     # Preprocessor and models custom class with our preprocessing, embeddings and models
     preprocessor = Preprocessor()
     models = Models()
@@ -36,8 +35,11 @@ def build_preprocessor_pipeline_04():
 
     embedder = FunctionTransformer(models.word2vec_model_100_12_1)
 
+    model = FunctionTransformer(models.lstm_model_100_12_1)
+
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
-                                 embedder)
+                                 embedder,
+                                 model)
 
     return pipeline

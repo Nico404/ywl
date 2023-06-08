@@ -61,7 +61,8 @@ class Preprocessor:
 
     def padding_preprocessor(self, df): # normalement pas besoin, et du coup pas de masking
         ''' Pads the chunks right to have the same length for each chunk '''
-        df['Book'] = df['Book'].str.ljust(256, '0')
+        max_length = df['Book'].str.len().max()
+        df['Book'] = df['Book'].str.ljust(max_length, '0')
         return df
 
 
