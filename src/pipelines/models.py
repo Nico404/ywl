@@ -17,7 +17,7 @@ class Models:
         df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
         return df
 
-    def word2vec_model_200_12_2(self, df : pd.DataFrame, vector_size=200, window=12, min_count=2) -> pd.DataFrame:
+    def word2vec_model_60_12_2(self, df : pd.DataFrame, vector_size=60, window=12, min_count=2) -> pd.DataFrame:
         wordtovec = Word2Vec(df['Book'], vector_size=vector_size, window=window, min_count=min_count)
         df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
         return df
@@ -46,7 +46,7 @@ class Models:
 
             model.add(layers.Masking())
 
-            model.add(layers.LSTM(100, activation='relu'))
+            model.add(layers.LSTM(60, activation='relu', input_shape=(X_train.shape[1], X_train.shape[2])))
             # ou bien  model.add(layers.Dense(100, activation='relu'))
 
             model.add(layers.Dense(10, activation="softmax"))
@@ -62,7 +62,7 @@ class Models:
             model.compile(loss='categorical_crossentropy',
                         optimizer=optimizer,
                         metrics=['accuracy', "f1score"])
-            
+
             print("Model compiled")
             return model
 
