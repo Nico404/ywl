@@ -9,6 +9,7 @@ class Config:
     DATA_FINAL_PATH = 'data/final/'
     LAST_NEXT_TOKEN_PATH = 'data/tmp/last_next_token.txt'
     BOOKS_SHORTLIST_PATH = 'data/raw/books_shortlist/'
+    BOOKS_RAW_PATH = 'data/raw/books/'
 
     # vars
     GUTENDEX_INITIAL_ENDPOINT = 'https://gutendex.com/books?languages=en,fr'

@@ -40,8 +40,7 @@ def build_preprocessor_pipeline_04():
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
                                  padding_preprocessor,
-                                 embedder
-                                 )
+                                 embedder)
 
 
     return pipeline
