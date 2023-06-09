@@ -10,7 +10,7 @@ from src.pipelines.models import Models
 config = Config()
 
 #     return pipeline
-def build_preprocessor_pipeline_04():
+def build_preprocessor_pipeline_045():
     # Preprocessor and models custom class with our preprocessing, embeddings and models
     preprocessor = Preprocessor()
     models = Models()
@@ -32,13 +32,10 @@ def build_preprocessor_pipeline_04():
      # nd version
     chunk_text_preprocessor_nd = FunctionTransformer(preprocessor.chunk_text_preprocessor_nd)
 
-    word2vec_model_60_12_2 = FunctionTransformer(models.word2vec_model_60_12_2_debug)
-
-    padding = FunctionTransformer(preprocessor.padding_sequence_preprocessor)
+    word2vec_model_60_12_2_debug2 = FunctionTransformer(models.word2vec_model_60_12_2_debug2)
 
     pipeline = make_pipeline(text_author_parallel,
                                  chunk_text_preprocessor_nd,
-                                 word2vec_model_60_12_2,
-                                 padding)
+                                 word2vec_model_60_12_2_debug2)
 
     return pipeline

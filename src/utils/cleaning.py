@@ -12,7 +12,7 @@ def body(text):
         body_ = text
     return body_
 
-def body_cleaning(body, to_strip=True, to_lower=True, del_numbers=True, del_punctuation=False):
+def body_cleaning(body, to_strip=True, to_lower=True, del_numbers=True, del_punctuation=True):
     """
     Cleans the body of a text by removing whitespaces, lowercasing, removing numbers and punctuation
     """
