@@ -9,18 +9,34 @@ from typing import Tuple
 from tensorflow import keras
 from keras import Model, Sequential, layers, regularizers, optimizers
 from keras.callbacks import EarlyStopping
-
+from keras.preprocessing.text import text_to_word_sequence
 
 class Models:
-    def word2vec_model_100_12_1(self, df : pd.DataFrame, vector_size=100, window=12, min_count=1) -> pd.DataFrame:
+    # def word2vec_model_100_12_1(self, df : pd.DataFrame, vector_size=100, window=12, min_count=1) -> pd.DataFrame:
+    #     wordtovec = Word2Vec(df['Book'], vector_size=vector_size, window=window, min_count=min_count)
+    #     df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
+    #     return df
+
+    # def word2vec_model_60_12_2(self, df : pd.DataFrame, vector_size=60, window=12, min_count=2) -> pd.DataFrame:
+    #     wordtovec = Word2Vec(df['Book'], vector_size=vector_size, window=window, min_count=min_count)
+    #     df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
+    #     return df
+
+    def word2vec_model_60_12_2_debug(self, df : pd.DataFrame, vector_size=60, window=12, min_count=2) -> pd.DataFrame:
+        df['Book'] = df['Book'].apply(lambda x: text_to_word_sequence(x))
         wordtovec = Word2Vec(df['Book'], vector_size=vector_size, window=window, min_count=min_count)
         df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
         return df
 
-    def word2vec_model_60_12_2(self, df : pd.DataFrame, vector_size=60, window=12, min_count=2) -> pd.DataFrame:
+    def word2vec_model_60_12_2_debug2(self, df : pd.DataFrame, vector_size=60, window=12, min_count=1) -> pd.DataFrame:
+        df['Book'] = df['Book'].apply(lambda x: text_to_word_sequence(x))
         wordtovec = Word2Vec(df['Book'], vector_size=vector_size, window=window, min_count=min_count)
         df['Book'] = df['Book'].apply(lambda x: [wordtovec.wv[word] for word in x if word in wordtovec.wv])
         return df
+
+
+
+
 
     # word2vec-google-news-300
     # def word2vec_model_pretrained(self, df : pd.DataFrame) -> pd.DataFrame:
@@ -61,7 +77,7 @@ class Models:
 
             model.compile(loss='categorical_crossentropy',
                         optimizer=optimizer,
-                        metrics=['accuracy', "f1score"])
+                        metrics=['accuracy'])
 
             print("Model compiled")
             return model
@@ -73,7 +89,7 @@ class Models:
                 y: np.ndarray,
                 batch_size=32,
                 patience=2,
-                # validation_split=0.3,
+                validation_split=0.3,
                 epochs=5
             ) -> Tuple[Model, dict]:
             """
@@ -85,18 +101,16 @@ class Models:
                 monitor="val_loss",
                 patience=patience,
                 restore_best_weights=True,
-                verbose=1
-            )
+                verbose=1)
 
             history = model.fit(
                 X,
                 y,
-                # validation_split=validation_split,
+                validation_split=validation_split,
                 epochs=epochs,
                 batch_size=batch_size,
                 callbacks=[es],
-                verbose=0
-            )
+                verbose=0)
 
             print(history.history.keys())
             print(f"Model trained on {len(X)} rows with min val MAE: {round(np.min(history.history['val_mae']), 2)}")
@@ -119,8 +133,7 @@ class Models:
                 batch_size=batch_size,
                 verbose=1,
                 # callbacks=None,
-                return_dict=True
-            )
+                return_dict=True)
 
             loss = metrics["loss"]
             accuracy = metrics['accuracy']

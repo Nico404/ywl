@@ -5,7 +5,7 @@ from src.utils.cleaning import body, body_cleaning, strip_html
 from src.utils.chunkify import chunk_text
 from config.config import Config
 import numpy as np
-
+from keras.preprocessing.sequence import pad_sequences
 
 config = Config()
 
@@ -68,6 +68,10 @@ class Preprocessor:
         df['Book'] = df['Book'].str.ljust(max_length, '0')
         return df
 
+    def padding_sequence_preprocessor(self, df): # normalement pas besoin, et du coup pas de masking
+        ''' Pads the vect chunks right to have the same length of 256 vectors for each chunk '''
+        df['Book'] = pad_sequences(df['Book'], dtype='float32', maxlen=256, padding='post', truncating='post').tolist()
+        return df
 
     def encode_label_preprocessor(self, df):
         ''' Encodes the target variable into integers'''
