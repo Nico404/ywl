@@ -1,5 +1,7 @@
 import os
-from config.config import Config
+from config import Config
+
+# used in a notebook when needed
 
 def count_words(id: str) -> int:
     ''' Count words in the book '''
