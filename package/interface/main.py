@@ -70,9 +70,9 @@ def train_gru():
         verbose=1)
 
     checkpoint = ModelCheckpoint(
-        "gru_model.h5", save_weights_only=True, verbose=1)
+        "gru_model.keras", save_weights_only=True, verbose=1)
 
-    model = tf.keras.models.load_model(os.path.join(config.COMPILED_MODELS_PATH, f'gru_model_compiled.h5'))
+    model = tf.keras.models.load_model(os.path.join(config.COMPILED_MODELS_PATH, f'gru_model_compiled.keras'))
 
     history = model.fit(
         X_train,
@@ -86,13 +86,20 @@ def train_gru():
 
     # save the trained model
     timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    tf.keras.models.save_model(model, os.path.join(config.TRAINED_MODELS_PATH, f'gru_model_{timestamp}.h5'))
+    tf.keras.models.save_model(model, os.path.join(config.TRAINED_MODELS_PATH, f'gru_model_{timestamp}.keras'))
     print('Trained model saved')
     return history
 
 
-# def predict():
-    # model = compile_gru()
-    # model.load_weights("gru_model.h5")
-    # predictions = model.predict(X_test)
-    # return predictions
+# def predict_gru():
+    # model = tf.keras.models.load_model(os.path.join(config.TRAINED_MODELS_PATH, f'gru_model_TIMESTAMP.keras'))
+    #prediction = model.predict(X_test)
+    # return prediction
+
+
+if __name__ == '__main__':
+    # preprocess_gru()
+    # compile_gru()
+    # train_gru()
+    # predict_gru()
+    pass

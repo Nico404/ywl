@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# http://127.0.0.1:8000/predict?text=sample_text
+# http://127.0.0.1:8002/predict_gru?text=lalala
 @app.get("/predict_gru")
 def predict(
         text: str
@@ -33,6 +33,7 @@ def predict(
     top_3_writers = sorted(writer_scores_dict, key=writer_scores_dict.get, reverse=True)[:3]
     return top_3_writers
 
+# http://127.0.0.1:8002/predict_bert?text=lalala
 @app.get("/predict_bert")
 def predict(
         text: str

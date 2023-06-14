@@ -28,5 +28,19 @@ train_gru:
 # train_bert:
 
 
+##### PREDICT RESULTS #####
+
+
+
 ##### RUN PREPROCESSING + COMPILING + TRAINING
 run_all: preprocess_gru compile_gru train_gru
+
+
+##### RUN THE API #####
+run_api:
+	uvicorn package.api.fast:app --port 8002 --reload
+
+#################### PACKAGE ACTIONS ###################
+reinstall_package:
+	 @pip uninstall -y package || :
+	 @pip install -e .
