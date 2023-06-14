@@ -1,8 +1,6 @@
 import requests
 import os
-from bs4 import BeautifulSoup
-import pandas as pd
-from config.config import Config
+from config import Config
 from typing import Tuple, List, Dict
 
 
@@ -51,7 +49,7 @@ def save_book_from_url(url: str) -> None:
     if response.status_code == 200:
         file_name_with_extension = os.path.basename(url)
         file_name, extension = os.path.splitext(file_name_with_extension)
-        file_path = os.path.join(config.DATA_RAW_PATH_GLOBAL_FR,file_name)
+        file_path = os.path.join(config.DATA_RAW_PATH_GLOBAL,file_name)
         with open(file_path, 'w') as file:
             file.write(response.text.encode('utf-8').decode('utf-8'))
 
