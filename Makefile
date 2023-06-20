@@ -35,7 +35,6 @@ train_gru:
 ##### RUN PREPROCESSING + COMPILING
 run_all: preprocess_gru compile_gru
 
-
 ##### RUN THE API #####
 run_api:
 	uvicorn package.api.fast:app --port 8002 --reload
