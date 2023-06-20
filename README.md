@@ -25,11 +25,11 @@ The file fetch_data/checkpoint/last_next_token.txt needs to be populated with th
 - Once the process has started, the last token will be replaced by the latest page https://gutendex.com/books/?languages=en%2Cfr%0A&page=5.
 It allows for the scrapping process to be paused and restarted.
 
-- ** make stage_books ** will stage only the list of authors that we want to work on from data/raw/books to data/raw/books_shortlist
+- **make stage_books** will stage only the list of authors that we want to work on from data/raw/books to data/raw/books_shortlist
 
- - ** make process_books ** will process the shortlisted books, build a lookup table with authors and books_processed.csv that can be opened in a dataframe with two columns: ** Author | Book **
+ - **make process_books** will process the shortlisted books, build a lookup table with authors and books_processed.csv that can be opened in a dataframe with two columns: **Author | Book**
 
-- ** make run_all **
+- **make run_all**
 
 Reads the dataset and run preprocessing, and compiling the model. Training is all that's left to do.
 
