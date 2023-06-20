@@ -32,8 +32,8 @@ train_gru:
 
 
 
-##### RUN PREPROCESSING + COMPILING + TRAINING
-run_all: preprocess_gru compile_gru train_gru
+##### RUN PREPROCESSING + COMPILING
+run_all: preprocess_gru compile_gru
 
 
 ##### RUN THE API #####
