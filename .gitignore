@@ -1,5 +1,9 @@
 .python-version
 .DS_Store
-data/
+data/compiled_models/
+data/final/
+data/processed/
+data/raw/
+data/trained_models
 __pycache__/
 *.py[cod]
