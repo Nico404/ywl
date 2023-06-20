@@ -93,7 +93,7 @@ def train_gru():
 
 # def predict_gru():
     # model = tf.keras.models.load_model(os.path.join(config.TRAINED_MODELS_PATH, f'gru_model_TIMESTAMP.keras'))
-    #prediction = model.predict(X_test)
+    #prediction = model.predict
     # return prediction
 
 
