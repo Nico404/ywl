@@ -1,49 +1,50 @@
+import os
 import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import tensorflow as tf
+from config import Config
+from transformers import TextClassificationPipeline
+from transformers import AutoTokenizer
+from transformers import TFAutoModelForSequenceClassification
+from contextlib import asynccontextmanager
 
-app = FastAPI()
+config = Config()
+
+model = dict()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # loading model
+    model['predict_model'] = TFAutoModelForSequenceClassification.from_pretrained(config.FINAL_BERT_MODEL)
+    model['predict_tokenizer'] = AutoTokenizer.from_pretrained(config.FINAL_BERT_TOKENIZER)
+    model['pipe'] = TextClassificationPipeline(model=model['predict_model'], tokenizer=model['predict_tokenizer'], return_all_scores=True)
+    print('Pretrained Model loaded')
+    yield
+    model.clear()
+app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():
     return {'greeting': 'Hello'}
 
-
-# Allowing all middleware is optional, but good practice for dev purposes
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
-)
-
-# http://127.0.0.1:8002/predict_gru?text=lalala
-@app.get("/predict_gru")
-def predict(
-        text: str
-    ):
-    # load model here
-    # apply preprocessing here
-    # prediction here
-
-    # simulate prediction output
-    writer_scores_dict = {'Shakespeare': 0.31, 'Jane Austen': 0.32, 'Charles Dickens': 0.21, 'Mark Twain': 0.12, 'Oscar Wilde': 0.04}
-    # only keep the top 3 writers
-    top_3_writers = sorted(writer_scores_dict, key=writer_scores_dict.get, reverse=True)[:3]
-    return top_3_writers
-
 # http://127.0.0.1:8002/predict_bert?text=lalala
-@app.get("/predict_bert")
-def predict(
-        text: str
-    ):
-    # load model here
-    # apply preprocessing here
-    # prediction here
+@app.post("/predict_bert")
+def predict(text: str):
 
-    # simulate prediction output
-    writer_scores_dict = {'Marco Polo': 0.11, 'Moliere': 0.52, 'Clement': 0.21, 'Alex': 0.12, 'Nico': 0.04}
-    # only keep the top 3 writers
-    top_3_writers = sorted(writer_scores_dict, key=writer_scores_dict.get, reverse=True)[:3]
-    return top_3_writers
+    # create a dictionary with labels and scores
+    labels_scores_dict = {item['label']: item['score'] for sublist in model['pipe'](text) for item in sublist}
+
+    # order the dictionary by score
+    sorted_dict = dict(sorted(labels_scores_dict.items(), key=lambda x: x[1], reverse=True))
+    print(sorted_dict)
+    return sorted_dict 

@@ -16,3 +16,6 @@ class Config:
 
     PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_RAW_PATH_GLOBAL = 'data/raw/'
+
+    FINAL_BERT_MODEL = 'final_models/gutenBERT_model3/'
+    FINAL_BERT_TOKENIZER = 'final_models/gutenBERT_tokenizer3/'
