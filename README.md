@@ -54,3 +54,10 @@ Our best performing model was the distilBERT with a 0.7 val accuracy.
 We could only go up to 0.45 val accuracy after 24 epochs with BERT. ie notebook notebooks/03_training_bert_base_cased
 
 ## Metrics
+
+
+## Authors
+
+- [@Nico404](https://www.github.com/Nico404)
+- [@Clement7991](https://www.github.com/Clement7991)
+- [@lxmuresan](https://www.github.com/lxmuresan)
