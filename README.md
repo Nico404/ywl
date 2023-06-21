@@ -18,7 +18,7 @@ Watch our live demo to get a grasp of the entire project:
 
  ### Fetch Data
 
-- Run fetch_data/api.py to download all books from the gutenberg project.
+- Run **make download_all_books** to download all books from the gutenberg project.
 
 The file fetch_data/checkpoint/last_next_token.txt needs to be populated with the starting endpoint of the api https://gutendex.com/books?languages=en,fr.
 
@@ -36,11 +36,21 @@ Reads the dataset and run preprocessing, and compiling the model. Training is al
 
 ## What we tried:
 
+- 2 different preprocessing methods: cleaning everything or keeping punctuation and capital letters
+-> Less cleaning performed better.
+
 - RNN LSTM from scratch
 - CNN Conv1D from scratch
 - RNN GRU from scratch
-- Hugging Face's distilBERT pretrained model with a different output layer
 
-Our best performing model was the BERT with a 0.7 accuracy.
+We embeded the text with a word2vec model trained on the entire scope of books.
+RNN GRU performed best.
+
+We also tried to use pretrained models:
+- Hugging Face's BERT base cased pretrained model with a different output layer
+- Hugging Face's distilBERT pretrained model, a much lighter version of BERT with a different output layer
+
+Our best performing model was the distilBERT with a 0.7 val accuracy.
+We could only go up to 0.45 val accuracy after 24 epochs with BERT. ie notebook notebooks/03_training_bert_base_cased
 
 ## Metrics
