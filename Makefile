@@ -1,4 +1,7 @@
 ##### FETCHING THE DATA #####
+download_all_books:
+	python fetch_data/api.py
+
 stage_books:
 	python fetch_data/stage_books.py
 
